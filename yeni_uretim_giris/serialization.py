@@ -3,7 +3,7 @@ from json.decoder import JSONDecodeError
 from pathlib import Path
 
 def json_load_dict(file : str ) -> dict:
-    road = Path(f'db/{file}.json')
+    road = Path(f'yeni_uretim_giris/db/{file}.json')
     data = {}
     try:
         with open (road) as json_l:
@@ -18,12 +18,12 @@ def json_load_dict(file : str ) -> dict:
             return data
 
 def json_save_dict(file : str, data : dict):
-    road = Path(f'db/{file}.json')
+    road = Path(f'yeni_uretim_giris/db/{file}.json')
     with open(road, 'w') as json_s:
         json.dump(data, json_s, indent = 2)
 
 def json_load_list(file:str) -> list:
-    road = Path(f'db/{file}.json')
+    road = Path(f'yeni_uretim_giris/db/{file}.json')
     data = []
     try:
         with open (road) as json_l:
@@ -38,7 +38,7 @@ def json_load_list(file:str) -> list:
             return data
 
 def json_save_list(file : str, data : list):
-    road = Path(f'db/{file}.json')
+    road = Path(f'yeni_uretim_giris/db/{file}.json')
     with open(road, 'w') as json_s:
         json.dump(data, json_s, indent = 2)    
 

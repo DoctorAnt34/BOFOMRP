@@ -1,12 +1,13 @@
 
-#TODO DB isi girişinde kaldın
+#TODO DB time tipi datetime olarak değişecek ve pk olacak.
+#TODO ısı tablosunda Bağ kodu ve no mevcut ise update yapacak.(DENEME YAP YAZDIN)
 
 import sqlite3 as sq
 from sqlite3 import Error
 from pathlib import Path
 import serialization as s
 
-road = Path('db/uretim.db')
+road = Path('yeni_uretim_giris/db/uretim.db')
 
 
 uretim = s.json_load_dict('uretim')
@@ -207,16 +208,69 @@ def bag_giris(bag_kodu):
 
 def isi_giris(bag_kodu):
 
-        makine = bag_veri[bag_kodu]['lot'][:1]
+        if list(bag_veri[bag_kodu].keys()) > 6:
+                
+                makine = bag_veri[bag_kodu]['lot'][:1]
 
-        query = """
-        INSERT INTO
-        """
 
-makine = bag_veri['BP007842']['lot'][:1]
+                query = f"""
+                SELECT No FROM isi_veri_LM{makine} WHERE bag_kodu = {bag_kodu}
+                """
+                cur.execute(query)
+                temp = cur.fetchall()
+                veri_list = list()
+                for i in temp:
+                        veri_list.append(i[0])
 
-test = f"""
-INSERT INTO isi_veri_LM{makine}
 
-"""
 
+                j = 0
+                for i in list(bag_veri[bag_kodu].values())[6:]:
+                        data = list()
+                        data.append(bag_kodu)
+                        j += 1
+                        data.append(j)
+                        for k in list(i.values()):
+                                data.append(k)
+                        if data[1] not  in veri_list:
+                                query = f"""
+                                INSERT INTO isi_veri_LM{makine}
+                                (
+                                bag_kodu,
+                                No,
+                                time,
+                                bic_sol,
+                                bic_orta,
+                                bic_sag,
+                                tekne,
+                                kazan,
+                                hava_gir,
+                                hava_cik,
+                                oda
+                                )
+                                VALUES(?,?,?,?,?,?,?,?,?,?,?)
+                                """
+                                cur.execute(query,data)
+                                con.commit()
+                        else:
+                                query = f"""
+                                UPDATE isi_veri_LM{makine}
+                                time = ?,
+                                bic_sol = ?,
+                                bic_orta = ?,
+                                bic_sag = ?,
+                                tekne = ?,
+                                kazan = ?,
+                                hava_gir = ?,
+                                hava_cik = ?,
+                                oda = ?,
+                                WHERE bag_kodu = ? AND No = ?
+                                """
+                                data_ = data[2:]
+                                data_.append(data[0])
+                                data_.append(data[1])
+                                cur.execute(query,data_)
+                                con.commit()
+
+        else:
+                return f'{bag_kodu} nun ısı verileri yok.'

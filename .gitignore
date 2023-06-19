@@ -1,8 +1,9 @@
 db/
 env/
-
+__pycache__/
 *.json
 *.db
+*.pyc
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
