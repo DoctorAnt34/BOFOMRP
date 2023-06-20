@@ -398,7 +398,7 @@ class bofoVeri():
         s.json_save_dict('uretim',uretim)
         s.json_save_dict('bag_veri',bag_veri)
         s.json_save_dict('desen',DESEN)
-        s.json_save_dict('recetler',receteler)
+        s.json_save_dict('receteler',receteler)
         s.json_save_list('kalip',KALIP)
         s.json_save_list('bag',bag)
         s.json_save_dict('uretim_bag', uretim_bag)  
