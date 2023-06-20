@@ -1,6 +1,6 @@
 
 #TODO DB time tipi datetime olarak değişecek ve pk olacak.
-#TODO ısı tablosunda Bağ kodu ve no mevcut ise update yapacak.(DENEME YAP YAZDIN)
+
 
 import sqlite3 as sq
 from sqlite3 import Error
@@ -208,21 +208,19 @@ def bag_giris(bag_kodu):
 
 def isi_giris(bag_kodu):
 
-        if list(bag_veri[bag_kodu].keys()) > 6:
+        if len(list(bag_veri[bag_kodu].keys())) > 6:
                 
                 makine = bag_veri[bag_kodu]['lot'][:1]
 
-
                 query = f"""
-                SELECT No FROM isi_veri_LM{makine} WHERE bag_kodu = {bag_kodu}
+                SELECT No FROM isi_veri_LM{makine} WHERE bag_kodu = '{bag_kodu}'
                 """
                 cur.execute(query)
                 temp = cur.fetchall()
                 veri_list = list()
                 for i in temp:
                         veri_list.append(i[0])
-
-
+                
 
                 j = 0
                 for i in list(bag_veri[bag_kodu].values())[6:]:
@@ -255,6 +253,7 @@ def isi_giris(bag_kodu):
                         else:
                                 query = f"""
                                 UPDATE isi_veri_LM{makine}
+                                SET
                                 time = ?,
                                 bic_sol = ?,
                                 bic_orta = ?,
@@ -263,7 +262,7 @@ def isi_giris(bag_kodu):
                                 kazan = ?,
                                 hava_gir = ?,
                                 hava_cik = ?,
-                                oda = ?,
+                                oda = ?
                                 WHERE bag_kodu = ? AND No = ?
                                 """
                                 data_ = data[2:]
@@ -274,3 +273,4 @@ def isi_giris(bag_kodu):
 
         else:
                 return f'{bag_kodu} nun ısı verileri yok.'
+
