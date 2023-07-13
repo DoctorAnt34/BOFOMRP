@@ -6,7 +6,7 @@ from sqlite3 import Error
 from pathlib import Path
 import serialization as s
 
-road = Path('db/uretim.db')
+road = Path('yeni_uretim_giris/db/uretim.db')
 
 
 uretim = s.json_load_dict('uretim')

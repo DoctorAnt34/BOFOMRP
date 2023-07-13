@@ -1,4 +1,5 @@
 """
+TODO Üretimden Bağ çıkardıkça verilen sarf malzemelerden düşünsün yeterli yoksa uyarı versin.
 TODO Üretim kodunu kalite notu gerekli mi?
 TODO dict ile aynı class attr ları olsun dicten daha rahat castlenir.(sonra düşünülebilir.)
 TODO Hesaplamalar eklenecek.(veritabanından veri çekilip mi yapılsın?)
@@ -374,8 +375,12 @@ class bofoVeri():
 
     @staticmethod
     def uretim_cast(uretim_kodu):
-        if uretim_kodu not in aktif_uretim:return print(f'{uretim_kodu} nolu üretim aktif üretimde değil.')
-        veriler = aktif_uretim[uretim_kodu]
+        if uretim_kodu not in aktif_uretim:
+            print(f'{uretim_kodu} nolu üretim aktif üretimde değil.')
+            veriler = uretim[uretim_kodu]
+        else:
+            print(f'{uretim_kodu} nolu üretim aktif üretimde.')
+            veriler = aktif_uretim[uretim_kodu]
         temp=bofoVeri(veriler['desen'],veriler['hedeflenen_uretim_miktari'],veriler['makine'],uretim_kodu)
         temp.saglam_uretim = veriler['uretilen_saglam_urun']
         temp.hatali_uretim = veriler['uretilen_hasarli_urun']
@@ -405,5 +410,4 @@ class bofoVeri():
         s.json_save_dict('isi',isi)
 
 
-        
-
+    
